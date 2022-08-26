@@ -1,4 +1,4 @@
-name: publish-alpine3_13
+name: publish-debian11
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-alpine3_13:
+  publish-debian11:
     runs-on: ubuntu-latest
     steps:
       -
@@ -17,11 +17,11 @@ jobs:
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
       -
-        name: Read Alpine version - revision
+        name: Read Debian version - minor
         uses: bfren/read-file@v1
         with:
-          file: ./3.13/ALPINE_REVISION
-        id: alpine_revision
+          file: ./11/DEBIAN_MINOR
+        id: debian_revision
       -
         name: Read image version
         uses: bfren/read-file@v1
@@ -65,23 +65,31 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./3.13/Dockerfile
+          file: ./11/Dockerfile
           build-args: |
             BF_IMAGE=${{ env.REPOSITORY_NAME }}
             BF_VERSION=${{ steps.version.outputs.contents }}
           push: true
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
-            bfren/alpine-s6:alpine3.13
-            bfren/alpine-s6:alpine3.13-${{ steps.version_major.outputs.contents }}
-            bfren/alpine-s6:alpine3.13-${{ steps.version_minor.outputs.contents }}
-            bfren/alpine-s6:alpine3.13-${{ steps.version.outputs.contents }}
-            bfren/alpine-s6:alpine${{ steps.alpine_revision.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine3.13
-            ghcr.io/bfren/alpine-s6:alpine3.13-${{ steps.version_major.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine3.13-${{ steps.version_minor.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine3.13-${{ steps.version.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine${{ steps.alpine_revision.outputs.contents }}
+            bfren/debian-s6:latest
+            bfren/debian-s6:${{ steps.version_major.outputs.contents }}
+            bfren/debian-s6:${{ steps.version_minor.outputs.contents }}
+            bfren/debian-s6:${{ steps.version.outputs.contents }}
+            bfren/debian-s6:debian11
+            bfren/debian-s6:debian11-${{ steps.version_major.outputs.contents }}
+            bfren/debian-s6:debian11-${{ steps.version_minor.outputs.contents }}
+            bfren/debian-s6:debian11-${{ steps.version.outputs.contents }}
+            bfren/debian-s6:debian${{ steps.debian_revision.outputs.contents }}
+            ghcr.io/bfren/debian-s6:latest
+            ghcr.io/bfren/debian-s6:${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.version.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian11
+            ghcr.io/bfren/debian-s6:debian11-${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian11-${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian11-${{ steps.version.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian${{ steps.debian_revision.outputs.contents }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

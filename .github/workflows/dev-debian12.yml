@@ -1,12 +1,30 @@
-name: publish-alpine3_15
+name: dev-debian12
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: ['**']
+    tags-ignore: ['**']
   workflow_dispatch:
 
 jobs:
-  publish-alpine3_15:
+  test-debian12:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v3
+      -
+        name: Checkout shUnit2
+        uses: actions/checkout@v3
+        with:
+          repository: kward/shunit2
+          ref: v2.1.8
+          path: ./shunit2
+      -
+        name: Run tests
+        run: |
+          RUN=./tests/run-git.sh && chmod +x ${RUN} && ${RUN}
+  build-debian12:
     runs-on: ubuntu-latest
     steps:
       -
@@ -16,18 +34,6 @@ jobs:
         name: Get repository name
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
-      -
-        name: Read Alpine version - revision
-        uses: bfren/read-file@v1
-        with:
-          file: ./3.15/ALPINE_REVISION
-        id: alpine_revision
-      -
-        name: Read image version
-        uses: bfren/read-file@v1
-        with:
-          file: ./VERSION_MAJOR
-        id: version_major
       -
         name: Read image version
         uses: bfren/read-file@v1
@@ -65,23 +71,19 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./3.15/Dockerfile
+          file: ./12/Dockerfile
           build-args: |
             BF_IMAGE=${{ env.REPOSITORY_NAME }}
             BF_VERSION=${{ steps.version.outputs.contents }}
-          push: true
+          push: ${{ startsWith(github.ref, 'refs/heads/') }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
-            bfren/alpine-s6:alpine3.15
-            bfren/alpine-s6:alpine3.15-${{ steps.version_major.outputs.contents }}
-            bfren/alpine-s6:alpine3.15-${{ steps.version_minor.outputs.contents }}
-            bfren/alpine-s6:alpine3.15-${{ steps.version.outputs.contents }}
-            bfren/alpine-s6:alpine${{ steps.alpine_revision.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine3.15
-            ghcr.io/bfren/alpine-s6:alpine3.15-${{ steps.version_major.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine3.15-${{ steps.version_minor.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine3.15-${{ steps.version.outputs.contents }}
-            ghcr.io/bfren/alpine-s6:alpine${{ steps.alpine_revision.outputs.contents }}
+            bfren/debian-s6:debian12-dev
+            bfren/debian-s6:debian12-${{ steps.version_minor.outputs.contents }}-beta
+            bfren/debian-s6:debian12-${{ steps.version.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:debian12-dev
+            ghcr.io/bfren/debian-s6:debian12-${{ steps.version_minor.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:debian12-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

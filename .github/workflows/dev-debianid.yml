@@ -1,4 +1,4 @@
-name: dev-alpine3_8
+name: dev-debiansid
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-alpine3_8:
+  test-debiansid:
     runs-on: ubuntu-latest
     steps:
       -
@@ -24,7 +24,7 @@ jobs:
         name: Run tests
         run: |
           RUN=./tests/run-git.sh && chmod +x ${RUN} && ${RUN}
-  build-alpine3_8:
+  build-debiansid:
     runs-on: ubuntu-latest
     steps:
       -
@@ -71,19 +71,19 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./3.8/Dockerfile
+          file: ./sid/Dockerfile
           build-args: |
             BF_IMAGE=${{ env.REPOSITORY_NAME }}
             BF_VERSION=${{ steps.version.outputs.contents }}
           push: ${{ startsWith(github.ref, 'refs/heads/') }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
-            bfren/alpine-s6:alpine3.8-dev
-            bfren/alpine-s6:alpine3.8-${{ steps.version_minor.outputs.contents }}-beta
-            bfren/alpine-s6:alpine3.8-${{ steps.version.outputs.contents }}-beta
-            ghcr.io/bfren/alpine-s6:alpine3.8-dev
-            ghcr.io/bfren/alpine-s6:alpine3.8-${{ steps.version_minor.outputs.contents }}-beta
-            ghcr.io/bfren/alpine-s6:alpine3.8-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:debiansid-dev
+            bfren/debian-s6:debiansid-${{ steps.version_minor.outputs.contents }}-beta
+            bfren/debian-s6:debiansid-${{ steps.version.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:debiansid-dev
+            ghcr.io/bfren/debian-s6:debiansid-${{ steps.version_minor.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:debiansid-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
