@@ -15,6 +15,6 @@ export BF_E="${PWD##*/}/$(basename ${0})"
 
 bf-echo "Starting cron."
 /usr/sbin/crond \
-    -f \
+    -n \
     -l ${BF_CRON_LOG_LEVEL} \
     -L ${BF_CRON_LOG_FILE}
