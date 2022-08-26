@@ -1,0 +1,29 @@
+#!/command/with-contenv sh
+
+set -euo pipefail
+
+
+#======================================================================================================================
+# Check if it has already been called (multiple services may try to bring it down).
+#======================================================================================================================
+
+if [ "${BF_TERMINATING-}" = "1" ] ; then
+    bf-debug "Container already being terminated." "bf-cont-terminate"
+    exit 0
+fi
+
+bf-env "BF_TERMINATING" "1"
+
+
+#======================================================================================================================
+# Terminate all running services (will stop / restart the container depending on restart policy).
+#======================================================================================================================
+
+# if cron is up, we need to halt the container
+# if cron is down, the container is already being terminated
+if [ `s6-svstat -u ${S6_SERVICES}/cron` ] ; then
+    bf-notok "Terminating container, goodbye." "bf-cont-terminate"
+    halt
+else
+    bf-debug "Container already being terminated." "bf-cont-terminate"
+fi

@@ -1,0 +1,10 @@
+foreground
+{
+    if { bf-echo "Initialising container." "init" }
+    ifelse -n { with-contenv /usr/lib/bf/init }
+    {
+        if { bf-notok "Unable to initialise container." "init" }
+        if { bf-cont-terminate }
+    }
+    if { bf-done "init" }
+}

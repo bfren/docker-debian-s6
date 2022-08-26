@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -euo pipefail
+
+
+#======================================================================================================================
+# Check arguments.
+#   1   Service name
+#======================================================================================================================
+
+[[ -z "${1-}" ]] && bf-error "You must provide the name of the service to stop." "bf-svc-down"
+SVC=${1}
+
+
+#======================================================================================================================
+# Use S6 to stop a service, disabling output and showing custom error message if it fails.
+#======================================================================================================================
+
+bf-echo "Stopping." "bf-svc-down"
+s6-rc -d change "${SVC}" > /dev/null 2>&1 \
+    || bf-error "Exited $? while disabling service ${SVC}, please try again." "bf-svc-down"

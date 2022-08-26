@@ -1,0 +1,42 @@
+#!/bin/sh
+
+set -euo pipefail
+
+
+#======================================================================================================================
+# Executable usage.
+#======================================================================================================================
+
+usage () {
+    echo "Usage: `basename ${0}` [OPTIONS] DIRECTORY" 2>&1
+    echo "    -q    Run cron silently."
+    echo "    -h    Show this usage message."
+    exit 2
+}
+
+while getopts ":hq" C ; do
+    case ${C} in
+        h) usage ;;
+        q) SILENT=1 ;;
+        ?) bf-notok "Invalid option: -${OPTARG}" "bf-cron" && usage ;;
+    esac
+done
+
+shift $(($OPTIND -1))
+[[ -z "${1-}" ]] && bf-error "You must provide the name of the cron directory." "bf-cron"
+
+
+#======================================================================================================================
+# Ensure cron directory exists.
+#======================================================================================================================
+
+DIRECTORY="/etc/periodic/${1}"
+[[ ! -d "${DIRECTORY}" ]] && bf-error "Cron directory does not exist: ${DIRECTORY}." "bf-cron"
+
+
+#======================================================================================================================
+# Use run-parts to execute cron.
+#======================================================================================================================
+
+[[ "${SILENT-}" != "1" ]] && bf-echo "${DIRECTORY}" "bf-cron"
+run-parts --exit-on-error "${DIRECTORY}"
