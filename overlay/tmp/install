@@ -52,7 +52,7 @@ bf-echo "S6 Overlay version ${S6_VERSION}."
 # Install dependencies.
 #======================================================================================================================
 
-apt update && apt install \
+apt update && apt install -y \
     xz-utils
 
 
