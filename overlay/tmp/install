@@ -52,11 +52,8 @@ bf-echo "S6 Overlay version ${S6_VERSION}."
 # Install dependencies.
 #======================================================================================================================
 
-apt update && apt install -y --no-install-recommends \
-    ca-certificates \
+DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recommends \
     cron
-
-update-ca-certificates
 
 
 #======================================================================================================================
