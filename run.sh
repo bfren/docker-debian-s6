@@ -10,4 +10,4 @@ docker buildx build \
     -t debian${DEBIAN}-s6-dev \
     . \
     && \
-    docker run -it debian${DEBIAN}-s6-dev sh
+    docker run -it debian${DEBIAN}-s6-dev bash
