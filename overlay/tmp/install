@@ -53,7 +53,10 @@ bf-echo "S6 Overlay version ${S6_VERSION}."
 #======================================================================================================================
 
 DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recommends \
+    ca-certificates
     cron
+
+update-ca-certificates
 
 
 #======================================================================================================================
@@ -68,10 +71,10 @@ install () {
     # download file
     URL="https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/${FILE}"
     bf-echo " .. downloading ${URL}..."
-    wget --no-check-certificate ${URL}
+    wget ${URL}
 
     # check integrity
-    wget --no-check-certificate ${URL}.sha256
+    wget ${URL}.sha256
     sha256sum --check --status ${FILE}.sha256 \
         || bf-error " .. S6 Overlay download does not match checksum."
 
