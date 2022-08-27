@@ -1,9 +1,9 @@
-FROM --platform=$BUILDPLATFORM golang:alpine AS build
+FROM --platform=${BUILDPLATFORM} golang:alpine AS build
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
-RUN echo "Build: $BUILDPLATFORM, target: $TARGETPLATFORM" > /log
+RUN echo "Build: ${BUILDPLATFORM}, target: ${TARGETPLATFORM}" > /log
 
 FROM bfren/debian:debian11.4-1.1.0
 COPY --from=build /log /log
