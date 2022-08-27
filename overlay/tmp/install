@@ -68,10 +68,10 @@ install () {
     # download file
     URL="https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/${FILE}"
     bf-echo " .. downloading ${URL}..."
-    wget ${URL}
+    wget --no-check-certificate ${URL}
 
     # check integrity
-    wget ${URL}.sha256
+    wget --no-check-certificate ${URL}.sha256
     sha256sum --check --status ${FILE}.sha256 \
         || bf-error " .. S6 Overlay download does not match checksum."
 
