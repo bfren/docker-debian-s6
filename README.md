@@ -14,8 +14,8 @@
 
 ## Licence
 
-> [MIT](https://mit.bfren.dev/2020)
+> [MIT](https://mit.bfren.dev/2022)
 
 ## Copyright
 
-> Copyright (c) 2020-2022 [bfren](https://bfren.dev) (unless otherwise stated)
+> Copyright (c) 2022 [bfren](https://bfren.dev) (unless otherwise stated)
