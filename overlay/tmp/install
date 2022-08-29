@@ -44,10 +44,6 @@ bf-done
 # Cleanup.
 #======================================================================================================================
 
-bf-echo "Removing .empty files..."
-find / -type f -name ".empty" -delete
-
 bf-echo "Removing installation files..."
 rm -rf /s6
-
 bf-done
