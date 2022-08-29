@@ -15,15 +15,15 @@ RUN case "${TARGETPLATFORM}" in \
     echo "Build: ${BUILDPLATFORM}" > /log && \
     echo "Target: ${TARGETPLATFORM}" >> /log && \
     echo "Arch: ${ARCH}" >> /log && \
-    echo "S6 Overlay: <%= ${S6_VERSION} %>" >> /log && \
-    URL=https://github.com/just-containers/s6-overlay/releases/download/v<%= ${S6_VERSION} %>/s6-overlay && \
+    echo "S6 Overlay: 3.1.1.2" >> /log && \
+    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.1.2/s6-overlay && \
     apk add curl && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz.sha256 && \
     curl -sSL -O ${URL}-noarch.tar.xz && \
     curl -sSL -O ${URL}-noarch.tar.xz.sha256
 
-FROM bfren/debian:debian<%= ${DEBIAN_MINOR} %>-<%= ${BASE_REVISION} %>
+FROM bfren/debian:debianbookworm-1.1.1
 COPY --from=build /log /log
 COPY --from=build /s6 /s6
 
