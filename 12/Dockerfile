@@ -9,7 +9,7 @@ RUN case "${TARGETPLATFORM}" in \
         linux/amd64) ARCH="x86_64" ;; \
         linux/arm/v7) ARCH="armhf" ;; \
         linux/arm64) ARCH="aarch64" ;; \
-        *) bf-error "Unsupported target platform: ${TARGETPLATFORM}." ;; \
+        *) echo "Unsupported target platform: ${TARGETPLATFORM}." && exit 1 ;; \
     esac && \
     echo "${ARCH}" > arch && \
     echo "Build: ${BUILDPLATFORM}" > /log && \
