@@ -14,7 +14,7 @@ RUN case "${TARGETPLATFORM}" in \
         *) bf-error "Unsupported target platform: ${TARGETPLATFORM}." ;; \
     esac && \
     echo "${ARCH}" > arch && \
-    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.0/s6-overlay && \
+    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.1.2/s6-overlay && \
     apk add curl && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz.sha256 && \
