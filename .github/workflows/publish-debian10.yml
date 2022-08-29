@@ -21,7 +21,7 @@ jobs:
         uses: bfren/read-file@v1
         with:
           file: ./10/DEBIAN_MINOR
-        id: debian_revision
+        id: debian_minor
       -
         name: Read image version
         uses: bfren/read-file@v1
@@ -76,12 +76,12 @@ jobs:
             bfren/debian-s6:debian10-${{ steps.version_major.outputs.contents }}
             bfren/debian-s6:debian10-${{ steps.version_minor.outputs.contents }}
             bfren/debian-s6:debian10-${{ steps.version.outputs.contents }}
-            bfren/debian-s6:debian${{ steps.debian_revision.outputs.contents }}
+            bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian10
             ghcr.io/bfren/debian-s6:debian10-${{ steps.version_major.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian10-${{ steps.version_minor.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian10-${{ steps.version.outputs.contents }}
-            ghcr.io/bfren/debian-s6:debian${{ steps.debian_revision.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
