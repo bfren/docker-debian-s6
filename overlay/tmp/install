@@ -56,8 +56,6 @@ DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recomme
     ca-certificates \
     cron
 
-update-ca-certificates
-
 
 #======================================================================================================================
 # Download and install S6 Overlay.
