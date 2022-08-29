@@ -21,8 +21,8 @@ RUN case "${TARGETPLATFORM}" in \
     curl -O ${URL}-noarch.tar.xz.sha256
 
 FROM bfren/debian:debian11.4-1.1.0
-COPY --from=build /log /
-COPY --from=build /s6 /
+COPY --from=build /log /log
+COPY --from=build /s6 /s6
 
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6"
 
