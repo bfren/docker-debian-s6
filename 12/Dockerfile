@@ -15,10 +15,10 @@ RUN case "${TARGETPLATFORM}" in \
     esac && \
     URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.0/s6-overlay && \
     apk add curl && \
-    curl -o s6-overlay-arch.tar.xz ${URL}-${ARCH}.tar.xz && \
-    curl -o s6-overlay-arch.tar.xz.sha256 ${URL}-${ARCH}.tar.xz.sha256 && \
-    curl -O ${URL}-noarch.tar.xz && \
-    curl -O ${URL}-noarch.tar.xz.sha256
+    curl -Lo s6-overlay-arch.tar.xz ${URL}-${ARCH}.tar.xz && \
+    curl -Lo s6-overlay-arch.tar.xz.sha256 ${URL}-${ARCH}.tar.xz.sha256 && \
+    curl -LO ${URL}-noarch.tar.xz && \
+    curl -LO ${URL}-noarch.tar.xz.sha256
 
 FROM bfren/debian:debianbookworm-1.1.0
 COPY --from=build /log /log
