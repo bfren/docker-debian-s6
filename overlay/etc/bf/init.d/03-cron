@@ -5,10 +5,7 @@ export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Fix and verify packages and repository sources.
+# Turn off cron service so it can be supervised.
 #======================================================================================================================
 
-if [ "${BF_APK_VERIFY-}" = "1" ] ; then
-    apk fix
-    apk verify
-fi
+/etc/init.d/cron stop
