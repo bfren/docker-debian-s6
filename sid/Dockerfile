@@ -12,17 +12,16 @@ RUN case "${TARGETPLATFORM}" in \
         *) bf-error "Unsupported target platform: ${TARGETPLATFORM}." ;; \
     esac && \
     echo "${ARCH}" > arch && \
+    echo "Build: ${BUILDPLATFORM}" > /log && \
+    echo "Target: ${TARGETPLATFORM}" >> /log && \
+    echo "Arch: ${ARCH}" >> /log && \
+    echo "S6 Overlay: 3.1.1.2" >> /log && \
     URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.1.2/s6-overlay && \
     apk add curl && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz.sha256 && \
     curl -sSL -O ${URL}-noarch.tar.xz && \
     curl -sSL -O ${URL}-noarch.tar.xz.sha256
-
-RUN echo "Build: ${BUILDPLATFORM}" > /log && \
-    echo "Target: ${TARGETPLATFORM}" >> /log && \
-    echo "Arch: ${ARCH}" >> /log && \
-    echo "S6 Overlay: 3.1.1.2" >> /log
 
 FROM bfren/debian:debiansid-1.1.0
 COPY --from=build /log /log
