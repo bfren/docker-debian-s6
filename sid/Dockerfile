@@ -3,14 +3,28 @@ FROM --platform=${BUILDPLATFORM} golang:alpine AS build
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
+WORKDIR /s6
+
 RUN echo "Build: ${BUILDPLATFORM}, target: ${TARGETPLATFORM}" > /log
 
+RUN case "${TARGETPLATFORM}" in \
+        linux/amd64) ARCH="x86_64" ;; \
+        linux/arm/v7) ARCH="armhf" ;; \
+        linux/arm64) ARCH="aarch64" ;; \
+        *) bf-error "Unsupported target platform: ${TARGETPLATFORM}." ;; \
+    esac && \
+    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.0/s6-overlay && \
+    apk add curl && \
+    curl -o s6-overlay-arch.tar.xz ${URL}-${TARGETPLATFORM}.tar.xz && \
+    curl -o s6-overlay-arch.tar.xz.sha256 ${URL}-${TARGETPLATFORM}.tar.xz.sha256 && \
+    curl -O ${URL}-noarch.tar.xz && \
+    curl -O ${URL}-noarch.tar.xz.sha256
+
 FROM bfren/debian:debiansid-1.1.0
-COPY --from=build /log /log
+COPY --from=build /log /
+COPY --from=build /s6 /
 
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6"
-
-ARG TARGETPLATFORM
 
 ARG BF_IMAGE
 ARG BF_VERSION

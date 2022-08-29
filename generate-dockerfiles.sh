@@ -5,6 +5,7 @@ set -euo pipefail
 docker pull bfren/alpine
 
 BASE_REVISION="1.1.0"
+S6_VERSION="3.1.2.0"
 echo "Base: ${BASE_REVISION}"
 
 DEBIAN_VERSIONS="10 11 12 sid"
@@ -19,6 +20,7 @@ for V in ${DEBIAN_VERSIONS} ; do
         bfren/alpine esh \
         "/ws/Dockerfile.esh" \
         BASE_REVISION=${BASE_REVISION} \
+        S6_VERSION=${S6_VERSION} \
         DEBIAN_MINOR=${DEBIAN_MINOR}
     )
 

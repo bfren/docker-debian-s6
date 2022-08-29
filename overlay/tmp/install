@@ -5,55 +5,10 @@ export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Ensure target platform is set.
-#======================================================================================================================
-
-[[ -z "${TARGETPLATFORM-}" ]] && bf-error "Target platform not set."
-
-
-#======================================================================================================================
-# Get correct installer for target platform.
-#======================================================================================================================
-
-case "${TARGETPLATFORM}" in
-
-    linux/amd64)
-        ARCH="x86_64"
-        ;;
-
-    linux/arm/v7)
-        ARCH="armhf"
-        ;;
-
-    linux/arm64)
-        ARCH="aarch64"
-        ;;
-
-    *)
-        bf-error "Unsupported target platform: ${TARGETPLATFORM}."
-        ;;
-
-esac
-
-bf-echo "Platform architecture ${ARCH}."
-
-
-#======================================================================================================================
-# Get S6 Overlay version.
-#======================================================================================================================
-
-cd /tmp
-
-S6_VERSION=$(cat S6_VERSION)
-bf-echo "S6 Overlay version ${S6_VERSION}."
-
-
-#======================================================================================================================
 # Install dependencies.
 #======================================================================================================================
 
 DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recommends \
-    ca-certificates \
     cron
 
 
@@ -63,16 +18,10 @@ DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recomme
 
 install () {
 
-    # build filename - argument 1 is the architecture
-    FILE="s6-overlay-${1}.tar.xz"
-
-    # download file
-    URL="https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/${FILE}"
-    bf-echo " .. downloading ${URL}..."
-    wget ${URL}
+    # get file
+    FILE=/s6/s6-overlay-${1}.tar.xz
 
     # check integrity
-    wget ${URL}.sha256
     sha256sum --check --status ${FILE}.sha256 \
         || bf-error " .. S6 Overlay download does not match checksum."
 
@@ -83,9 +32,9 @@ install () {
 
 }
 
-bf-echo "Installing S6 Overlay v${S6_VERSION}..."
+bf-echo "Installing S6 Overlay..."
 install "noarch"
-install ${ARCH}
+install "arch"
 bf-done
 
 
@@ -94,5 +43,9 @@ bf-done
 #======================================================================================================================
 
 bf-echo "Removing .empty files..."
-rm /etc/periodic/1min/.empty
+find / -type f -name ".empty" -delete
+
+bf-echo "Removing installation files..."
+rm -rf /s6
+
 bf-done
