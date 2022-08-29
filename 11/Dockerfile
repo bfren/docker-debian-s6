@@ -5,8 +5,6 @@ ARG BUILDPLATFORM
 
 WORKDIR /s6
 
-RUN echo "Build: ${BUILDPLATFORM}, target: ${TARGETPLATFORM}" > /log
-
 RUN case "${TARGETPLATFORM}" in \
         linux/amd64) ARCH="x86_64" ;; \
         linux/arm/v7) ARCH="armhf" ;; \
@@ -20,6 +18,11 @@ RUN case "${TARGETPLATFORM}" in \
     curl -sSL -O ${URL}-${ARCH}.tar.xz.sha256 && \
     curl -sSL -O ${URL}-noarch.tar.xz && \
     curl -sSL -O ${URL}-noarch.tar.xz.sha256
+
+RUN echo "Build: ${BUILDPLATFORM}" > /log && \
+    echo "Target: ${TARGETPLATFORM}" >> /log && \
+    echo "Arch: ${ARCH}" >> /log && \
+    echo "S6 Overlay: 3.1.1.2" >> /log
 
 FROM bfren/debian:debian11.4-1.1.0
 COPY --from=build /log /log
