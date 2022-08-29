@@ -19,7 +19,7 @@ DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recomme
 install () {
 
     # get file
-    FILE=/s6/s6-overlay-${1}.tar.xz
+    FILE=s6-overlay-${1}.tar.xz
 
     # check integrity
     sha256sum --check --status ${FILE}.sha256 \
@@ -33,8 +33,10 @@ install () {
 }
 
 bf-echo "Installing S6 Overlay..."
+cd /s6
+ARCH=`cat arch`
 install "noarch"
-install "arch"
+install ${ARCH}
 bf-done
 
 

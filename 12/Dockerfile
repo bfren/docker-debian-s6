@@ -13,12 +13,13 @@ RUN case "${TARGETPLATFORM}" in \
         linux/arm64) ARCH="aarch64" ;; \
         *) bf-error "Unsupported target platform: ${TARGETPLATFORM}." ;; \
     esac && \
+    echo "${ARCH}" > arch && \
     URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.0/s6-overlay && \
     apk add curl && \
-    curl -L -o s6-overlay-arch.tar.xz ${URL}-${ARCH}.tar.xz && \
-    curl -L -o s6-overlay-arch.tar.xz.sha256 ${URL}-${ARCH}.tar.xz.sha256 && \
-    curl -L -O ${URL}-noarch.tar.xz && \
-    curl -L -O ${URL}-noarch.tar.xz.sha256
+    curl -sSL -O ${URL}-${ARCH}.tar.xz && \
+    curl -sSL -O ${URL}-${ARCH}.tar.xz.sha256 && \
+    curl -sSL -O ${URL}-noarch.tar.xz && \
+    curl -sSL -O ${URL}-noarch.tar.xz.sha256
 
 FROM bfren/debian:debianbookworm-1.1.0
 COPY --from=build /log /log
