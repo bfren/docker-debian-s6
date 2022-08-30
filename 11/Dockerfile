@@ -15,8 +15,8 @@ RUN case "${TARGETPLATFORM}" in \
     echo "Build: ${BUILDPLATFORM}" > /log && \
     echo "Target: ${TARGETPLATFORM}" >> /log && \
     echo "Arch: ${ARCH}" >> /log && \
-    echo "S6 Overlay: 3.1.1.2" >> /log && \
-    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.1.2/s6-overlay && \
+    echo "S6 Overlay: 3.1.2.1" >> /log && \
+    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.1/s6-overlay && \
     apk add curl && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz && \
     curl -sSL -O ${URL}-${ARCH}.tar.xz.sha256 && \
