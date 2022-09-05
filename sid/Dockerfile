@@ -23,7 +23,7 @@ RUN case "${TARGETPLATFORM}" in \
     curl -sSL -O ${URL}-noarch.tar.xz && \
     curl -sSL -O ${URL}-noarch.tar.xz.sha256
 
-FROM bfren/debian:debiansid-1.1.3
+FROM bfren/debian:debiansid-1.2.0-dev
 COPY --from=build /log /log
 COPY --from=build /s6 /s6
 
