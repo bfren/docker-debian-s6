@@ -12,7 +12,7 @@ DEBIAN_VERSIONS="10 11 12 sid"
 for V in ${DEBIAN_VERSIONS} ; do
 
     echo "Debian ${V}"
-    DEBIAN_MINOR=`cat ./${V}/DEBIAN_MINOR`
+    DEBIAN_VERSION=`cat ./${V}/DEBIAN_VERSION`
 
     DOCKERFILE=$(docker run \
         -v ${PWD}:/ws \
@@ -21,7 +21,7 @@ for V in ${DEBIAN_VERSIONS} ; do
         "/ws/Dockerfile.esh" \
         BASE_REVISION=${BASE_REVISION} \
         S6_VERSION=${S6_VERSION} \
-        DEBIAN_MINOR=${DEBIAN_MINOR}
+        DEBIAN_VERSION=${DEBIAN_VERSION}
     )
 
     echo "${DOCKERFILE}" > ./${V}/Dockerfile
