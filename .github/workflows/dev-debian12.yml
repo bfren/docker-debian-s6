@@ -81,9 +81,15 @@ jobs:
             bfren/debian-s6:debian12-dev
             bfren/debian-s6:debian12-${{ steps.version_minor.outputs.contents }}-beta
             bfren/debian-s6:debian12-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:bookworm-dev
+            bfren/debian-s6:bookworm-${{ steps.version_minor.outputs.contents }}-beta
+            bfren/debian-s6:bookworm-${{ steps.version.outputs.contents }}-beta
             ghcr.io/bfren/debian-s6:debian12-dev
             ghcr.io/bfren/debian-s6:debian12-${{ steps.version_minor.outputs.contents }}-beta
             ghcr.io/bfren/debian-s6:debian12-${{ steps.version.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:bookworm-dev
+            ghcr.io/bfren/debian-s6:bookworm-${{ steps.version_minor.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:bookworm-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

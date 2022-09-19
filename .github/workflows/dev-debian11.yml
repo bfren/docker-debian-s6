@@ -81,9 +81,15 @@ jobs:
             bfren/debian-s6:debian11-dev
             bfren/debian-s6:debian11-${{ steps.version_minor.outputs.contents }}-beta
             bfren/debian-s6:debian11-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:bullseye-dev
+            bfren/debian-s6:bullseye-${{ steps.version_minor.outputs.contents }}-beta
+            bfren/debian-s6:bullseye-${{ steps.version.outputs.contents }}-beta
             ghcr.io/bfren/debian-s6:debian11-dev
             ghcr.io/bfren/debian-s6:debian11-${{ steps.version_minor.outputs.contents }}-beta
             ghcr.io/bfren/debian-s6:debian11-${{ steps.version.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:bullseye-dev
+            ghcr.io/bfren/debian-s6:bullseye-${{ steps.version_minor.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:bullseye-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

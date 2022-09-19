@@ -81,6 +81,10 @@ jobs:
             bfren/debian-s6:debian11-${{ steps.version_minor.outputs.contents }}
             bfren/debian-s6:debian11-${{ steps.version.outputs.contents }}
             bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
+            bfren/debian-s6:bullseye
+            bfren/debian-s6:bullseye-${{ steps.version_major.outputs.contents }}
+            bfren/debian-s6:bullseye-${{ steps.version_minor.outputs.contents }}
+            bfren/debian-s6:bullseye-${{ steps.version.outputs.contents }}
             ghcr.io/bfren/debian-s6:latest
             ghcr.io/bfren/debian-s6:${{ steps.version_major.outputs.contents }}
             ghcr.io/bfren/debian-s6:${{ steps.version_minor.outputs.contents }}
@@ -90,6 +94,10 @@ jobs:
             ghcr.io/bfren/debian-s6:debian11-${{ steps.version_minor.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian11-${{ steps.version.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:bullseye
+            ghcr.io/bfren/debian-s6:bullseye-${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/debian-s6:bullseye-${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:bullseye-${{ steps.version.outputs.contents }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
