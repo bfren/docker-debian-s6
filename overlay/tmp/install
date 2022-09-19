@@ -14,7 +14,7 @@ install () {
     FILE=s6-overlay-${1}.tar.xz
 
     # check integrity
-    sha256sum --check --status ${FILE}.sha256 \
+    sha256sum -cs ${FILE}.sha256 \
         || bf-error " .. S6 Overlay download does not match checksum."
 
     # extract
