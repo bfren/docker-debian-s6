@@ -17,12 +17,6 @@ jobs:
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
       -
-        name: Read Debian version - minor
-        uses: bfren/read-file@v1
-        with:
-          file: ./10/DEBIAN_MINOR
-        id: debian_minor
-      -
         name: Read image version
         uses: bfren/read-file@v1
         with:
@@ -76,7 +70,6 @@ jobs:
             bfren/debian-s6:debian10-${{ steps.version_major.outputs.contents }}
             bfren/debian-s6:debian10-${{ steps.version_minor.outputs.contents }}
             bfren/debian-s6:debian10-${{ steps.version.outputs.contents }}
-            bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
             bfren/debian-s6:buster
             bfren/debian-s6:buster-${{ steps.version_major.outputs.contents }}
             bfren/debian-s6:buster-${{ steps.version_minor.outputs.contents }}
@@ -85,7 +78,6 @@ jobs:
             ghcr.io/bfren/debian-s6:debian10-${{ steps.version_major.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian10-${{ steps.version_minor.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian10-${{ steps.version.outputs.contents }}
-            ghcr.io/bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
             ghcr.io/bfren/debian-s6:buster
             ghcr.io/bfren/debian-s6:buster-${{ steps.version_major.outputs.contents }}
             ghcr.io/bfren/debian-s6:buster-${{ steps.version_minor.outputs.contents }}
