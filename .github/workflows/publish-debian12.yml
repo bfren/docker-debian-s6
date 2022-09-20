@@ -17,12 +17,6 @@ jobs:
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
       -
-        name: Read Debian version - minor
-        uses: bfren/read-file@v1
-        with:
-          file: ./12/DEBIAN_MINOR
-        id: debian_minor
-      -
         name: Read image version
         uses: bfren/read-file@v1
         with:
@@ -76,12 +70,18 @@ jobs:
             bfren/debian-s6:debian12-${{ steps.version_major.outputs.contents }}
             bfren/debian-s6:debian12-${{ steps.version_minor.outputs.contents }}
             bfren/debian-s6:debian12-${{ steps.version.outputs.contents }}
-            bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
+            bfren/debian-s6:bookworm
+            bfren/debian-s6:bookworm-${{ steps.version_major.outputs.contents }}
+            bfren/debian-s6:bookworm-${{ steps.version_minor.outputs.contents }}
+            bfren/debian-s6:bookworm-${{ steps.version.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian12
             ghcr.io/bfren/debian-s6:debian12-${{ steps.version_major.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian12-${{ steps.version_minor.outputs.contents }}
             ghcr.io/bfren/debian-s6:debian12-${{ steps.version.outputs.contents }}
-            ghcr.io/bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:bookworm
+            ghcr.io/bfren/debian-s6:bookworm-${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/debian-s6:bookworm-${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:bookworm-${{ steps.version.outputs.contents }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

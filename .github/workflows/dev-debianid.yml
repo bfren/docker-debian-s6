@@ -78,12 +78,12 @@ jobs:
           push: ${{ startsWith(github.ref, 'refs/heads/') }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
-            bfren/debian-s6:debiansid-dev
-            bfren/debian-s6:debiansid-${{ steps.version_minor.outputs.contents }}-beta
-            bfren/debian-s6:debiansid-${{ steps.version.outputs.contents }}-beta
-            ghcr.io/bfren/debian-s6:debiansid-dev
-            ghcr.io/bfren/debian-s6:debiansid-${{ steps.version_minor.outputs.contents }}-beta
-            ghcr.io/bfren/debian-s6:debiansid-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:sid-dev
+            bfren/debian-s6:sid-${{ steps.version_minor.outputs.contents }}-beta
+            bfren/debian-s6:sid-${{ steps.version.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:sid-dev
+            ghcr.io/bfren/debian-s6:sid-${{ steps.version_minor.outputs.contents }}-beta
+            ghcr.io/bfren/debian-s6:sid-${{ steps.version.outputs.contents }}-beta
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
