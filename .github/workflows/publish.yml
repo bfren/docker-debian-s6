@@ -91,7 +91,7 @@ jobs:
             ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}
       -
         name: Build and push default tags
-        id: docker_build
+        id: docker_build_default
         uses: docker/build-push-action@v3
         if: matrix.debian == '11'
         with:
