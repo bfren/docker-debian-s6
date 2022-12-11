@@ -1,0 +1,116 @@
+name: publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    strategy:
+      matrix:
+        debian: [ "10", "11", "12", "sid" ]
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v3
+      -
+        name: Get repository name
+        run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+        shell: bash
+      -
+        name: Read image version
+        uses: bfren/read-file@v2
+        with:
+          file: ./VERSION_MAJOR
+        id: version_major
+      -
+        name: Read image version
+        uses: bfren/read-file@v2
+        with:
+          file: ./VERSION_MINOR
+        id: version_minor
+      -
+        name: Read image version
+        uses: bfren/read-file@v2
+        with:
+          file: ./VERSION
+        id: version
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./11/Dockerfile
+          build-args: |
+            BF_IMAGE=${{ env.REPOSITORY_NAME }}
+            BF_VERSION=${{ steps.version.outputs.contents }}
+          push: true
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          tags: |
+            bfren/debian-s6:debian${{ matrix.debian }}
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_minor.outputs.contents }}
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version.outputs.contents }}
+            bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
+            bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}-${{ steps.version.outputs.contents }}
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:debian${{ steps.debian_minor.outputs.contents }}-${{ steps.version.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}
+      -
+        name: Build and push default tags
+        id: docker_build
+        uses: docker/build-push-action@v3
+        if: matrix.debian == '11'
+        with:
+          context: .
+          file: ./${{ matrix.debian }}/Dockerfile
+          build-args: |
+            BF_IMAGE=${{ env.REPOSITORY_NAME }}
+            BF_VERSION=${{ steps.version.outputs.contents }}
+          push: true
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          tags: |
+            bfren/debian-s6:latest
+            bfren/debian-s6:${{ steps.version_major.outputs.contents }}
+            bfren/debian-s6:${{ steps.version_minor.outputs.contents }}
+            bfren/debian-s6:${{ steps.version.outputs.contents }}
+            ghcr.io/bfren/debian-s6:latest
+            ghcr.io/bfren/debian-s6:${{ steps.version_major.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.version_minor.outputs.contents }}
+            ghcr.io/bfren/debian-s6:${{ steps.version.outputs.contents }}
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
