@@ -20,6 +20,12 @@ jobs:
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
         shell: bash
       -
+        name: Read Debian name
+        uses: bfren/read-file@v2
+        with:
+          file: ./${{ matrix.debian }}/DEBIAN_NAME
+        id: debian_name
+      -
         name: Read image version
         uses: bfren/read-file@v2
         with:
