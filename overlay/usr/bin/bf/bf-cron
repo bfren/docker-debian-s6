@@ -9,7 +9,7 @@ set -euo pipefail
 
 usage () {
     echo "Usage: `basename ${0}` [OPTIONS] DIRECTORY" 2>&1
-    echo "    -q    Run cron silently."
+    echo "    -q    Make 'running cron' message debug only."
     echo "    -h    Show this usage message."
     exit 2
 }
@@ -17,7 +17,7 @@ usage () {
 while getopts ":hq" C ; do
     case ${C} in
         h) usage ;;
-        q) SILENT=1 ;;
+        q) QUIET=1 ;;
         ?) bf-notok "Invalid option: -${OPTARG}" "bf-cron" && usage ;;
     esac
 done
@@ -38,5 +38,10 @@ DIRECTORY="/etc/periodic/${1}"
 # Use run-parts to execute cron.
 #======================================================================================================================
 
-[[ "${SILENT-}" != "1" ]] && bf-echo "${DIRECTORY}" "bf-cron"
+if [ "${QUIET-}" == "1" ] ; then
+    bf-debug "${DIRECTORY}" "bf-cron"
+else
+    bf-echo "${DIRECTORY}" "bf-cron"
+fi
+
 run-parts --exit-on-error "${DIRECTORY}"
