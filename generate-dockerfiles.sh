@@ -21,7 +21,7 @@ for V in ${DEBIAN_VERSIONS} ; do
         "/ws/Dockerfile.esh" \
         BASE_REVISION=${BASE_REVISION} \
         S6_VERSION=${S6_VERSION} \
-        DEBIAN_VERSION=${DEBIAN_NAME}
+        DEBIAN_NAME=${DEBIAN_NAME}
     )
 
     echo "${DOCKERFILE}" > ./${V}/Dockerfile
