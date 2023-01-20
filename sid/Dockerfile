@@ -27,6 +27,7 @@ FROM bfren/debian:sid-1.3.8 AS final
 COPY --from=build /log /log
 COPY --from=build /s6 /s6
 
+LABEL org.opencontainers.image.description="Debian base image with S6 Overlay."
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6"
 
 ARG BF_IMAGE
