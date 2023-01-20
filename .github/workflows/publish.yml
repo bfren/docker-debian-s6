@@ -8,6 +8,7 @@ on:
 jobs:
   publish:
     strategy:
+      fail-fast: false
       matrix:
         debian: [ "10", "11", "12", "sid" ]
     runs-on: ubuntu-latest

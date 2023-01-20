@@ -26,6 +26,7 @@ jobs:
           RUN=./tests/run-git.sh && chmod +x ${RUN} && ${RUN}
   build:
     strategy:
+      fail-fast: false
       matrix:
         debian: [ "10", "11", "12", "sid" ]
     runs-on: ubuntu-latest
