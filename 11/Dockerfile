@@ -23,10 +23,11 @@ RUN case "${TARGETPLATFORM}" in \
     curl -sSL -O ${URL}-noarch.tar.xz && \
     curl -sSL -O ${URL}-noarch.tar.xz.sha256
 
-FROM bfren/debian:bullseye-1.3.8 AS final
+FROM bfren/debian:bullseye-1.3.9 AS final
 COPY --from=build /log /log
 COPY --from=build /s6 /s6
 
+LABEL org.opencontainers.image.description="Debian base image with S6 Overlay."
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6"
 
 ARG BF_IMAGE
