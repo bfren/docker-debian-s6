@@ -19,7 +19,7 @@ for V in ${DEBIAN_VERSIONS} ; do
         -e BF_DEBUG=0 \
         bfren/alpine esh \
         "/ws/Dockerfile.esh" \
-        BASE_REVISION=${BASE_REVISION}-beta \
+        BASE_REVISION=${BASE_REVISION} \
         S6_VERSION=${S6_VERSION} \
         DEBIAN_NAME=${DEBIAN_NAME}
     )
