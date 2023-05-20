@@ -49,6 +49,7 @@ COPY ./overlay /
 
 RUN bf-install
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=5 CMD [ "healthcheck" ]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=5 \
+    CMD healthcheck
 
 ENTRYPOINT [ "/init" ]
