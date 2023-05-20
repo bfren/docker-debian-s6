@@ -5,8 +5,13 @@ export BF_E=`basename ${0}`
 
 
 #======================================================================================================================
-# Apply ch files.
+# Apply ch files unless disabled.
 #======================================================================================================================
+
+if [ ! "${BF_ENABLE_INIT_CH}" = "1" ] ; then
+    bf-echo "Applying ch.d during init is disabled."
+    exit 0
+fi
 
 for FILE in `ls ${BF_CH_D} | sort` ; do
     bf-ch-apply "${BF_CH_D}/${FILE}"
