@@ -23,7 +23,7 @@ RUN case "${TARGETPLATFORM}" in \
     curl -sSL -O ${URL}-noarch.tar.xz && \
     curl -sSL -O ${URL}-noarch.tar.xz.sha256
 
-FROM bfren/debian:bullseye-1.4.4 AS final
+FROM bfren/debian:bullseye-1.5.0-beta AS final
 COPY --from=build /log /log
 COPY --from=build /s6 /s6
 
