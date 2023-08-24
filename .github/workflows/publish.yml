@@ -62,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./11/Dockerfile
+          file: ./${{ matrix.debian }}/Dockerfile
           build-args: |
             BF_IMAGE=${{ env.REPOSITORY_NAME }}
             BF_VERSION=${{ steps.version.outputs.contents }}
