@@ -36,4 +36,6 @@ bf-debug "Finished." "bf-svc-finish"
 # Terminate the container if the -t flag is set.
 #======================================================================================================================
 
-[[ "${TERMINATE-}" = "1" ]] && bf-cont-terminate
+if [ "${TERMINATE-}" = "1" ] ; then
+    bf-cont-terminate
+fi
