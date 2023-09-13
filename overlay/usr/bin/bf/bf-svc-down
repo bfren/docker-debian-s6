@@ -13,9 +13,15 @@ SVC=${1}
 
 
 #======================================================================================================================
-# Use S6 to stop a service, disabling output and showing custom error message if it fails.
+# Use S6 to stop a service.
 #======================================================================================================================
 
-bf-echo "Stopping." "bf-svc-down"
-s6-rc -d change "${SVC}" > /dev/null 2>&1 \
-    || bf-error "Exited $? while disabling service ${SVC}, please try again." "bf-svc-down"
+bf-debug "Stopping ${SVC}." "bf-svc-down"
+s6-rc -v 2 -d change "${SVC}" && bf-echo "Service ${SVC} has been stopped." "bf-svc-down"
+RESULT=$?
+
+if [ ${RESULT} -eq 111 ] ; then
+    bf-debug "bf-svc-down has probably been called too early for service ${SVC} - try again." "bf-svc-down"
+elif [ ${RESULT} -ne 0 ] ; then
+    bf-error "s6-rc exited ${RESULT} when trying to bring down service ${SVC}." "bf-svc-down"
+fi
