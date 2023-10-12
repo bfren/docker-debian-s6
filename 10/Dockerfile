@@ -23,7 +23,7 @@ RUN case "${TARGETPLATFORM}" in \
     curl -sSL -O ${URL}-noarch.tar.xz && \
     curl -sSL -O ${URL}-noarch.tar.xz.sha256
 
-FROM bfren/debian:buster-2.0.5 AS final
+FROM bfren/debian:buster-2.0.6 AS final
 COPY --from=build /log /log
 COPY --from=build /s6 /s6
 
@@ -42,6 +42,11 @@ ENV \
     BF_CRON_LOG_LEVEL=8 \
     # set to 0 to disable setting permissions using ch.d during init phase
     BF_ENABLE_INIT_CH=1 \
+    # what the container do if one of the service scripts fails -
+    #   0: continue silently (default)
+    #   1: continue with warning
+    #   2: stop the container
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     # disable S6 Overlay service timeout - handle by timeout-up instead
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
