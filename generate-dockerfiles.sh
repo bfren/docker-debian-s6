@@ -6,7 +6,7 @@ docker pull bfren/alpine
 
 BASE_VERSION="3.0.0-dev"
 S6_VERSION="3.1.5.0"
-ALPINE_BRANCH="v2.0.0"
+ALPINE_BRANCH="v5.0.0"
 
 DEBIAN_VERSIONS="11 12 13"
 for V in ${DEBIAN_VERSIONS} ; do
