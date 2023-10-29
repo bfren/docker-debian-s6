@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian: [ "10", "11", "12", "13" ]
+        debian: [ "11", "12", "13" ]
     runs-on: ubuntu-latest
     steps:
       -
@@ -88,13 +88,13 @@ jobs:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
             bfren/debian-s6:debian${{ matrix.debian }}-dev
-            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}-beta
-            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_minor.outputs.contents }}-beta
-            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}-dev
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_minor.outputs.contents }}-dev
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version.outputs.contents }}-dev
             bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-dev
-            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}-dev
       -
         name: Build and push default tags
         id: docker_build_default
@@ -110,9 +110,9 @@ jobs:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
             bfren/debian-s6:dev
-            bfren/debian-s6:${{ steps.version_major.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.version_minor.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:${{ steps.version_major.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.version_minor.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.version.outputs.contents }}-dev
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
