@@ -51,8 +51,6 @@ LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6
 ARG BF_IMAGE
 ARG BF_VERSION
 
-COPY ./overlay /
-
 ENV \
     # cron log levels are from 0 (most verbose) to 8 (default)
     BF_CRON_LOG_LEVEL=8 \
