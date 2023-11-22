@@ -1,7 +1,0 @@
-# min   hour    day     month   weekday command
-*       *       *       *       *       bf-cron -q 1min
-*/15    *       *       *       *       bf-cron -q 15min
-0       *       *       *       *       bf-cron -q hourly
-0       2       *       *       *       bf-cron daily
-0       3       *       *       6       bf-cron weekly
-0       5       1       *       *       bf-cron monthly

@@ -1,8 +1,0 @@
-foreground
-{
-    ifelse -n { with-contenv bf-init }
-    {
-        if { bf-notok "Unable to initialise container." "init" }
-        if { bf-cont-terminate }
-    }
-}

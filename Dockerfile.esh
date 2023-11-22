@@ -1,31 +1,49 @@
-FROM --platform=${BUILDPLATFORM} golang:alpine AS build
+#======================================================================================================================
+# STAGE 0: download S6 overlay
+#======================================================================================================================
 
+FROM --platform=${BUILDPLATFORM} golang:alpine AS s6
 ARG TARGETPLATFORM
-ARG BUILDPLATFORM
 
 WORKDIR /s6
-
-RUN case "${TARGETPLATFORM}" in \
+RUN \
+    # build a URL to download S6 binaries
+    echo "Downloading S6 Overlay." && \
+    case "${TARGETPLATFORM}" in \
         linux/amd64) ARCH="x86_64" ;; \
         linux/arm/v7) ARCH="armhf" ;; \
         linux/arm64) ARCH="aarch64" ;; \
         *) echo "Unsupported target platform: ${TARGETPLATFORM}." && exit 1 ;; \
     esac && \
-    echo "${ARCH}" > arch && \
-    echo "Build: ${BUILDPLATFORM}" > /log && \
-    echo "Target: ${TARGETPLATFORM}" >> /log && \
-    echo "Arch: ${ARCH}" >> /log && \
-    echo "S6 Overlay: <%= ${S6_VERSION} %>" >> /log && \
+    printf "%s" "${ARCH}" > ARCH && \
     URL=https://github.com/just-containers/s6-overlay/releases/download/v<%= ${S6_VERSION} %>/s6-overlay && \
-    apk add curl && \
-    curl -sSL -O ${URL}-${ARCH}.tar.xz && \
-    curl -sSL -O ${URL}-${ARCH}.tar.xz.sha256 && \
-    curl -sSL -O ${URL}-noarch.tar.xz && \
-    curl -sSL -O ${URL}-noarch.tar.xz.sha256
+    wget ${URL}-${ARCH}.tar.xz && \
+    wget ${URL}-${ARCH}.tar.xz.sha256 && \
+    wget ${URL}-noarch.tar.xz && \
+    wget ${URL}-noarch.tar.xz.sha256
 
-FROM bfren/debian:<%= ${DEBIAN_NAME} %>-<%= ${BASE_REVISION} %> AS final
-COPY --from=build /log /log
-COPY --from=build /s6 /s6
+
+#======================================================================================================================
+# STAGE 1: get overlay from Alpine S6 image
+#======================================================================================================================
+
+FROM alpine AS alpine
+
+WORKDIR /tmp
+RUN \
+    # get the overlay from the Alpine S6 base image
+    echo "Cloning Alpine S6 overlay." && \
+    apk add git && git clone --branch <%= ${ALPINE_BRANCH} %> https://github.com/bfren/docker-alpine-s6.git && \
+    mv docker-alpine-s6/overlay /
+
+
+#======================================================================================================================
+# STAGE 2: create final image
+#======================================================================================================================
+
+FROM bfren/debian:<%= ${DEBIAN_NAME} %>-<%= ${BASE_VERSION} %>
+COPY --from=s6 /s6 /s6
+COPY --from=alpine /overlay /
 
 LABEL org.opencontainers.image.description="Debian base image with S6 Overlay."
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6"
@@ -34,27 +52,27 @@ ARG BF_IMAGE
 ARG BF_VERSION
 
 ENV \
-    # add S6 executables to PATH
-    PATH=/command:${PATH}
-
-ENV \
     # cron log levels are from 0 (most verbose) to 8 (default)
     BF_CRON_LOG_LEVEL=8 \
     # set to 0 to disable setting permissions using ch.d during init phase
     BF_ENABLE_INIT_CH=1 \
+    # add S6 executables to PATH
+    PATH=/command:${PATH} \
     # what the container do if one of the service scripts fails -
     #   0: continue silently (default)
     #   1: continue with warning
     #   2: stop the container
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     # disable S6 Overlay service timeout - handle by timeout-up instead
-    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+    # location of S6 service directories
+    S6_SERVICES_DIR=/run/s6-rc/servicedirs
 
-COPY ./overlay /
+RUN \
+    # add S6 Overlay to the build log
+    bf-build-add "S6 Overlay" "<%= ${S6_VERSION} %>" && \
+    # run standard bf installation executable
+    bf-install
 
-RUN bf-install
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=5 \
+HEALTHCHECK --interval=1m --timeout=10s --start-period=5s --retries=5 \
     CMD healthcheck
-
-ENTRYPOINT [ "/init" ]

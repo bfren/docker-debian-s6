@@ -12,10 +12,10 @@ jobs:
     steps:
       -
         name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: Checkout shUnit2
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: kward/shunit2
           ref: v2.1.8
@@ -28,12 +28,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian: [ "10", "11", "12", "13" ]
+        debian: [ "11", "12", "13" ]
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: Get repository name
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
@@ -64,20 +64,20 @@ jobs:
         id: version
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       -
         name: Login to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./${{ matrix.debian }}/Dockerfile
@@ -88,18 +88,18 @@ jobs:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
             bfren/debian-s6:debian${{ matrix.debian }}-dev
-            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}-beta
-            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_minor.outputs.contents }}-beta
-            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}-dev
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_minor.outputs.contents }}-dev
+            bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version.outputs.contents }}-dev
             bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-dev
-            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}-dev
       -
         name: Build and push default tags
         id: docker_build_default
         if: matrix.debian == '12'
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./${{ matrix.debian }}/Dockerfile
@@ -110,9 +110,9 @@ jobs:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
             bfren/debian-s6:dev
-            bfren/debian-s6:${{ steps.version_major.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.version_minor.outputs.contents }}-beta
-            bfren/debian-s6:${{ steps.version.outputs.contents }}-beta
+            bfren/debian-s6:${{ steps.version_major.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.version_minor.outputs.contents }}-dev
+            bfren/debian-s6:${{ steps.version.outputs.contents }}-dev
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
