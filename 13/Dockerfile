@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM bfren/debian:trixie-3.0.0
+FROM bfren/debian:trixie-3.0.1
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
