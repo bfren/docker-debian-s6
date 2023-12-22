@@ -7,23 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout code
-        uses: actions/checkout@v4
-      -
-        name: Checkout shUnit2
-        uses: actions/checkout@v4
-        with:
-          repository: kward/shunit2
-          ref: v2.1.8
-          path: ./shunit2
-      -
-        name: Run tests
-        run: |
-          RUN=./tests/run-git.sh && chmod +x ${RUN} && ${RUN}
   build:
     strategy:
       fail-fast: false
@@ -75,6 +58,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
         name: Build and push
         id: docker_build
         uses: docker/build-push-action@v5
@@ -95,6 +85,14 @@ jobs:
             bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}-dev
             bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}-dev
             bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}-dev
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_minor.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_major.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version_minor.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:${{ steps.debian_name.outputs.contents }}-${{ steps.version.outputs.contents }}-dev
       -
         name: Build and push default tags
         id: docker_build_default
@@ -113,6 +111,10 @@ jobs:
             bfren/debian-s6:${{ steps.version_major.outputs.contents }}-dev
             bfren/debian-s6:${{ steps.version_minor.outputs.contents }}-dev
             bfren/debian-s6:${{ steps.version.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:dev
+            ghcr.io/bfren/debian-s6:${{ steps.version_major.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:${{ steps.version_minor.outputs.contents }}-dev
+            ghcr.io/bfren/debian-s6:${{ steps.version.outputs.contents }}-dev
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
