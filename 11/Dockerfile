@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM bfren/debian:bullseye-3.0.8
+FROM bfren/debian:bullseye-3.0.9
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
