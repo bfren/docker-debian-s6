@@ -33,7 +33,7 @@ WORKDIR /tmp
 RUN \
     # get the overlay from the Alpine S6 base image
     echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v5.1.4 https://github.com/bfren/docker-alpine-s6.git && \
+    apk add git && git clone --branch v5.2.1 https://github.com/bfren/docker-alpine-s6.git && \
     mv docker-alpine-s6/overlay /
 
 
@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM bfren/debian:bookworm-3.0.11
+FROM bfren/debian:bookworm-3.1.0
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
@@ -49,6 +49,7 @@ LABEL org.opencontainers.image.description="Debian base image with S6 Overlay."
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6"
 
 ARG BF_IMAGE
+ARG BF_PUBLISHING
 ARG BF_VERSION
 
 ENV \
