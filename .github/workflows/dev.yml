@@ -6,6 +6,9 @@ on:
     tags-ignore: ['**']
   workflow_dispatch:
 
+env:
+  TEST_TAG: debian-s6:test
+
 jobs:
   build:
     strategy:
@@ -64,6 +67,22 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and export
+        id: docker_export
+        uses: docker/build-push-action@v5
+        with:
+          file: ./${{ matrix.debian }}/Dockerfile
+          build-args: |
+            BF_IMAGE=${{ env.REPOSITORY_NAME }}
+            BF_VERSION=${{ steps.version.outputs.contents }}
+          load: true
+          tags: ${{ env.TEST_TAG }}
+      -
+        name: Run tests
+        id: docker_test
+        run: |
+          docker run --entrypoint "/usr/bin/env" ${{ env.TEST_TAG }} -i nu -c "use bf test ; test"
       -
         name: Build and push
         id: docker_build

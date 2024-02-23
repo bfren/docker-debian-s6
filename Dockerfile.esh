@@ -49,6 +49,7 @@ LABEL org.opencontainers.image.description="Debian base image with S6 Overlay."
 LABEL org.opencontainers.image.source="https://github.com/bfren/docker-debian-s6"
 
 ARG BF_IMAGE
+ARG BF_PUBLISHING
 ARG BF_VERSION
 
 ENV \
