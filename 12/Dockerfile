@@ -16,7 +16,7 @@ RUN \
         *) echo "Unsupported target platform: ${TARGETPLATFORM}." && exit 1 ;; \
     esac && \
     printf "%s" "${ARCH}" > ARCH && \
-    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.1.6.2/s6-overlay && \
+    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.2.0.0/s6-overlay && \
     wget ${URL}-${ARCH}.tar.xz && \
     wget ${URL}-${ARCH}.tar.xz.sha256 && \
     wget ${URL}-noarch.tar.xz && \
@@ -33,7 +33,7 @@ WORKDIR /tmp
 RUN \
     # get the overlay from the Alpine S6 base image
     echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v5.3.0 https://github.com/bfren/docker-alpine-s6.git && \
+    apk add git && git clone --branch v5.4.0 https://github.com/bfren/docker-alpine-s6.git && \
     mv docker-alpine-s6/overlay /
 
 
@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM bfren/debian:bookworm-3.1.5
+FROM bfren/debian:bookworm-3.2.0
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
@@ -64,14 +64,12 @@ ENV \
     #   1: continue with warning
     #   2: stop the container
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    # disable S6 Overlay service timeout - handle by timeout-up instead
-    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
     # location of S6 service directories
     S6_SERVICES_DIR=/run/s6-rc/servicedirs
 
 RUN \
     # add S6 Overlay to the build log
-    bf-build-add "S6 Overlay" "3.1.6.2" && \
+    bf-build-add "S6 Overlay" "3.2.0.0" && \
     # run standard bf installation executable
     bf-install
 

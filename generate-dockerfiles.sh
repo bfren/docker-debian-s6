@@ -4,11 +4,11 @@ set -euo pipefail
 
 docker pull bfren/alpine
 
-BASE_VERSION="3.1.5"
-ALPINE_BRANCH="v5.3.0"
-S6_VERSION="3.1.6.2"
+BASE_VERSION="3.2.0"
+ALPINE_BRANCH="v5.4.0"
+S6_VERSION="3.2.0.0"
 
-DEBIAN_VERSIONS="11 12 13"
+DEBIAN_VERSIONS="11 12"
 for V in ${DEBIAN_VERSIONS} ; do
 
     echo "Debian ${V}"
