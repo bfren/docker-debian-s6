@@ -27,7 +27,7 @@ RUN \
 # STAGE 1: get overlay from Alpine S6 image
 #======================================================================================================================
 
-FROM alpine AS alpine
+FROM ghcr.io/bfren/alpine AS alpine
 
 WORKDIR /tmp
 RUN \
@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM ghcr.io/bfren/debian:bookworm-3.2.1
+FROM ghcr.io/bfren/debian:bookworm-3.2.2
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 

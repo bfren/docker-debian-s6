@@ -27,7 +27,7 @@ RUN \
 # STAGE 1: get overlay from Alpine S6 image
 #======================================================================================================================
 
-FROM alpine AS alpine
+FROM ghcr.io/bfren/alpine AS alpine
 
 WORKDIR /tmp
 RUN \
