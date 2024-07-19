@@ -33,7 +33,7 @@ WORKDIR /tmp
 RUN \
     # get the overlay from the Alpine S6 base image
     echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v5.4.4 https://github.com/bfren/docker-alpine-s6.git && \
+    apk add git && git clone --branch v5.4.5 https://github.com/bfren/docker-alpine-s6.git && \
     mv docker-alpine-s6/overlay /
 
 
@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM ghcr.io/bfren/debian:bullseye-3.2.3
+FROM ghcr.io/bfren/debian:bullseye-3.2.4
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
