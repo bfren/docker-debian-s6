@@ -4,8 +4,8 @@ set -euo pipefail
 
 docker pull bfren/alpine
 
-BASE_VERSION="3.2.4"
-ALPINE_BRANCH="v5.4.5"
+BASE_VERSION="3.2.5"
+ALPINE_BRANCH="v5.4.6"
 S6_VERSION="3.2.0.0"
 
 DEBIAN_VERSIONS="11 12"
