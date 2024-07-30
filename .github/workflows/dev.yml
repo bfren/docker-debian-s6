@@ -70,7 +70,7 @@ jobs:
       -
         name: Build and export
         id: docker_export
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ./${{ matrix.debian }}/Dockerfile
           build-args: |
@@ -86,7 +86,7 @@ jobs:
       -
         name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./${{ matrix.debian }}/Dockerfile
@@ -116,7 +116,7 @@ jobs:
         name: Build and push default tags
         id: docker_build_default
         if: matrix.debian == '12'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./${{ matrix.debian }}/Dockerfile
