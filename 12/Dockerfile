@@ -16,7 +16,7 @@ RUN \
         *) echo "Unsupported target platform: ${TARGETPLATFORM}." && exit 1 ;; \
     esac && \
     printf "%s" "${ARCH}" > ARCH && \
-    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.2.0.0/s6-overlay && \
+    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.2.0.2/s6-overlay && \
     wget ${URL}-${ARCH}.tar.xz && \
     wget ${URL}-${ARCH}.tar.xz.sha256 && \
     wget ${URL}-noarch.tar.xz && \
@@ -33,7 +33,7 @@ WORKDIR /tmp
 RUN \
     # get the overlay from the Alpine S6 base image
     echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v5.4.10 https://github.com/bfren/docker-alpine-s6.git && \
+    apk add git && git clone --branch v5.4.11 https://github.com/bfren/docker-alpine-s6.git && \
     mv docker-alpine-s6/overlay /
 
 
@@ -69,7 +69,7 @@ ENV \
 
 RUN \
     # add S6 Overlay to the build log
-    bf-build-add "S6 Overlay" "3.2.0.0" && \
+    bf-build-add "S6 Overlay" "3.2.0.2" && \
     # run standard bf installation executable
     bf-install
 
