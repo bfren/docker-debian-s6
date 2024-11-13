@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM ghcr.io/bfren/debian:bookworm-3.3.3
+FROM ghcr.io/bfren/debian:bookworm-3.3.4
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
