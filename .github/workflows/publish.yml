@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian: [ "11", "12" ]
+        debian: [ "12" ]
     runs-on: ubuntu-latest
     steps:
       -
@@ -75,7 +75,7 @@ jobs:
             BF_PUBLISHING=1
             BF_VERSION=${{ steps.version.outputs.contents }}
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
             bfren/debian-s6:debian${{ matrix.debian }}
             bfren/debian-s6:debian${{ matrix.debian }}-${{ steps.version_major.outputs.contents }}
@@ -110,7 +110,7 @@ jobs:
             BF_PUBLISHING=1
             BF_VERSION=${{ steps.version.outputs.contents }}
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
             bfren/debian-s6:latest
             bfren/debian-s6:${{ steps.version_major.outputs.contents }}
