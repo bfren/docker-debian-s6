@@ -2,7 +2,7 @@
 # STAGE 0: download S6 overlay
 #======================================================================================================================
 
-FROM --platform=${BUILDPLATFORM} golang:alpine AS s6
+FROM --platform=${BUILDPLATFORM} ghcr.io/bfren/golang:alpine AS s6
 ARG TARGETPLATFORM
 
 WORKDIR /s6
@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM ghcr.io/bfren/debian:bookworm-4.1.1
+FROM ghcr.io/bfren/debian:bookworm-4.1.2
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
