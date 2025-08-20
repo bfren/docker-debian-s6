@@ -1,7 +1,7 @@
 #!/bin/sh
 
 IMAGE=`cat VERSION`
-DEBIAN=${1:-12}
+DEBIAN=${1:-13}
 
 docker buildx build \
     --load \

@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian: [ "12" ]
+        debian: [ "12", "13" ]
     runs-on: ubuntu-latest
     steps:
       -
@@ -101,7 +101,7 @@ jobs:
         name: Build and push default tags
         id: docker_build_default
         uses: docker/build-push-action@v6
-        if: matrix.debian == '12'
+        if: matrix.debian == '13'
         with:
           context: .
           file: ./${{ matrix.debian }}/Dockerfile

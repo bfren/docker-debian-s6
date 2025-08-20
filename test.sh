@@ -2,7 +2,7 @@
 
 IMAGE=debian-s6
 VERSION=`cat VERSION`
-DEBIAN=${1:-12}
+DEBIAN=${1:-13}
 TAG=${IMAGE}-test
 
 docker buildx build \
