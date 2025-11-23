@@ -2,7 +2,7 @@
 # STAGE 0: download S6 overlay
 #======================================================================================================================
 
-FROM --platform=${BUILDPLATFORM} quay.io/bfren/golang:alpine AS s6
+FROM --platform=${BUILDPLATFORM} quay.io/bfren/alpine AS s6
 ARG TARGETPLATFORM
 
 WORKDIR /s6
