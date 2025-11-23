@@ -2,7 +2,7 @@
 # STAGE 0: download S6 overlay
 #======================================================================================================================
 
-FROM --platform=${BUILDPLATFORM} ghcr.io/bfren/golang:alpine AS s6
+FROM --platform=${BUILDPLATFORM} quay.io/bfren/alpine AS s6
 ARG TARGETPLATFORM
 
 WORKDIR /s6
@@ -17,23 +17,23 @@ RUN \
     esac && \
     printf "%s" "${ARCH}" > ARCH && \
     URL=https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay && \
-    wget ${URL}-${ARCH}.tar.xz && \
-    wget ${URL}-${ARCH}.tar.xz.sha256 && \
-    wget ${URL}-noarch.tar.xz && \
-    wget ${URL}-noarch.tar.xz.sha256
+    bf-wget ${URL}-${ARCH}.tar.xz && \
+    bf-wget ${URL}-${ARCH}.tar.xz.sha256 && \
+    bf-wget ${URL}-noarch.tar.xz && \
+    bf-wget ${URL}-noarch.tar.xz.sha256
 
 
 #======================================================================================================================
 # STAGE 1: get overlay from Alpine S6 image
 #======================================================================================================================
 
-FROM ghcr.io/bfren/alpine AS alpine
+FROM quay.io/bfren/alpine AS alpine
 
 WORKDIR /tmp
 RUN \
     # get the overlay from the Alpine S6 base image
     echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v5.6.7 https://github.com/bfren/docker-alpine-s6.git && \
+    apk add git && git clone --branch v6.0.0 https://github.com/bfren/docker-alpine-s6.git && \
     mv docker-alpine-s6/overlay /
 
 
@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM ghcr.io/bfren/debian:bookworm-4.2.2
+FROM quay.io/bfren/debian:bookworm-5.0.0
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
