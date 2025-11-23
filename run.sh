@@ -5,7 +5,6 @@ DEBIAN=${1:-13}
 
 docker buildx build \
     --load \
-    --progress plain \
     --build-arg BF_IMAGE=debian-s6 \
     --build-arg BF_VERSION=${IMAGE} \
     -f ${DEBIAN}/Dockerfile \
