@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM quay.io/bfren/debian:trixie-5.1.1
+FROM quay.io/bfren/debian:trixie-5.1.2
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
