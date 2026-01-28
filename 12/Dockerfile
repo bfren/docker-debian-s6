@@ -16,7 +16,7 @@ RUN \
         *) echo "Unsupported target platform: ${TARGETPLATFORM}." && exit 1 ;; \
     esac && \
     printf "%s" "${ARCH}" > ARCH && \
-    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay && \
+    URL=https://github.com/just-containers/s6-overlay/releases/download/v3.2.2.0/s6-overlay && \
     bf-wget ${URL}-${ARCH}.tar.xz && \
     bf-wget ${URL}-${ARCH}.tar.xz.sha256 && \
     bf-wget ${URL}-noarch.tar.xz && \
@@ -33,7 +33,7 @@ WORKDIR /tmp
 RUN \
     # get the overlay from the Alpine S6 base image
     echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v6.1.2 https://github.com/bfren/docker-alpine-s6.git && \
+    apk add git && git clone --branch v6.1.3 https://github.com/bfren/docker-alpine-s6.git && \
     mv docker-alpine-s6/overlay /
 
 
@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM quay.io/bfren/debian:bookworm-5.1.3
+FROM quay.io/bfren/debian:bookworm-5.1.4
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
@@ -69,7 +69,7 @@ ENV \
 
 RUN \
     # add S6 Overlay to the build log
-    bf-build-add "S6 Overlay" "3.2.1.0" && \
+    bf-build-add "S6 Overlay" "3.2.2.0" && \
     # run standard bf installation executable
     bf-install
 
