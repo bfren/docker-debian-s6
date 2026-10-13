@@ -121,12 +121,12 @@ Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfr
 | ----------------------------- | ---------------------- | ----------------------------------------------------- |
 | `debianX`                     | `debian13`             | You want the latest image for a Debian version        |
 | `debianX-MAJOR`               | `debian13-4`           | You want updates, but not breaking changes            |
-| `debianX-MINOR`               | `debian13-4.5`         | You want fixes only - **recommended for building on** |
-| `debianX-VERSION`             | `debian13-4.5.0`       | You want to pin this image exactly                    |
+| `debianX-MINOR`               | `debian13-4.4`         | You want fixes only - **recommended for building on** |
+| `debianX-VERSION`             | `debian13-4.4.0`       | You want to pin this image exactly                    |
 | `debianX.Y`                   | `debian13.7`           | You want an exact Debian point release                |
-| `debianX.Y-VERSION`           | `debian13.7-4.5.0`     | You want to pin both                                  |
-| `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-4.5` | As above, using the Debian release name               |
-| `latest`, `4`, `4.5`, `4.5.0` |                        | As above, on the newest Debian version                |
+| `debianX.Y-VERSION`           | `debian13.7-4.4.0`     | You want to pin both                                  |
+| `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-4.4` | As above, using the Debian release name               |
+| `latest`, `4`, `4.4`, `4.4.0` |                        | As above, on the newest Debian version                |
 
 | Debian        | Security support ends | Community LTS ends |
 | ------------- | --------------------- | ------------------ |
