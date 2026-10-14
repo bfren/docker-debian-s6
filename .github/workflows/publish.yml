@@ -27,6 +27,12 @@ jobs:
           file: ./${{ matrix.debian }}/DEBIAN_NAME
         id: debian_name
       -
+        name: Read Debian version - minor
+        uses: bfren/read-file@v2
+        with:
+          file: ./${{ matrix.debian }}/DEBIAN_MINOR
+        id: debian_minor
+      -
         name: Read image version
         uses: bfren/read-file@v2
         with:

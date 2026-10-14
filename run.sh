@@ -4,6 +4,7 @@ IMAGE=`cat VERSION`
 DEBIAN=${1:-13}
 
 docker buildx build \
+    --no-cache-filter alpine \
     --load \
     --build-arg BF_IMAGE=debian-s6 \
     --build-arg BF_VERSION=${IMAGE} \
