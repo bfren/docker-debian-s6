@@ -33,7 +33,7 @@ WORKDIR /tmp
 RUN \
     # get the overlay from the Alpine S6 base image
     echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v6.6.1 https://github.com/bfren/docker-alpine-s6.git && \
+    apk add git && git clone --branch v6.7.0 https://github.com/bfren/docker-alpine-s6.git && \
     mv docker-alpine-s6/overlay /
 
 
@@ -74,4 +74,4 @@ RUN \
     bf-install
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --start-interval=2s --retries=3 \
-    CMD ["healthcheck"]
+    CMD ["bf-healthcheck"]
