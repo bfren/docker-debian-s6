@@ -38,7 +38,7 @@ my-image/
 `Dockerfile`:
 
 ```dockerfile
-FROM quay.io/bfren/debian-s6:debian13-4.4
+FROM quay.io/bfren/debian-s6:debian13-4.5
 
 ARG BF_IMAGE=my-image
 ARG BF_VERSION=1.0.0
@@ -120,12 +120,12 @@ Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfr
 | ----------------------------- | ---------------------- | ----------------------------------------------------- |
 | `debianX`                     | `debian13`             | You want the latest image for a Debian version        |
 | `debianX-MAJOR`               | `debian13-4`           | You want updates, but not breaking changes            |
-| `debianX-MINOR`               | `debian13-4.4`         | You want fixes only - **recommended for building on** |
-| `debianX-VERSION`             | `debian13-4.4.0`       | You want to pin this image exactly                    |
+| `debianX-MINOR`               | `debian13-4.5`         | You want fixes only - **recommended for building on** |
+| `debianX-VERSION`             | `debian13-4.5.0`       | You want to pin this image exactly                    |
 | `debianX.Y`                   | `debian13.7`           | You want an exact Debian point release                |
-| `debianX.Y-VERSION`           | `debian13.7-4.4.0`     | You want to pin both                                  |
-| `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-4.4` | As above, using the Debian release name               |
-| `latest`, `4`, `4.4`, `4.4.0` |                        | As above, on the newest Debian version                |
+| `debianX.Y-VERSION`           | `debian13.7-4.5.0`     | You want to pin both                                  |
+| `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-4.5` | As above, using the Debian release name               |
+| `latest`, `4`, `4.5`, `4.5.0` |                        | As above, on the newest Debian version                |
 
 | Debian        | Security support ends | Community LTS ends |
 | ------------- | --------------------- | ------------------ |
@@ -180,7 +180,7 @@ Everything else - the `bf` and `bf-s6` modules, `bf-install`, `/etc/bf` layout, 
 
 ### Health checks
 
-The image runs `healthcheck` every 30 seconds (every 2 seconds during the first 60 seconds, so a new container reports healthy quickly). It is a link to `/usr/bin/bf/bf-healthcheck`, which checks that the cron service is running. Images that run a service should check it instead: replace `/usr/bin/bf/bf-healthcheck` in your image with a script that exits non-zero when the service is unhealthy. Your script replaces the cron check, so add one if you still need it (`s6-svstat -u /run/service/cron` prints `true` when cron is up).
+The image runs `bf-healthcheck` every 30 seconds (every 2 seconds during the first 60 seconds, so a new container reports healthy quickly). It runs every `*.nu` file in `/etc/bf/health.d`, and the container is healthy only if they all pass. This image includes `00-cron.nu`, which checks that the cron service is running. To check your own service, add a script to `/etc/bf/health.d` that fails when the service is unhealthy - don't replace `bf-healthcheck`. See [Alpine + S6](https://github.com/bfren/docker-alpine-s6#health-checks) for an example.
 
 ## Testing
 
