@@ -13,5 +13,5 @@ def main [
     --all (-a)              # test all registered versions of Debian (overrides $debian)
 ] {
     let branches = if $all { $debian_branches } else { [$debian] }
-    test "debian-s6" $branches
+    test "debian-s6" $branches --build-flags ["--no-cache-filter" "alpine"]
 }

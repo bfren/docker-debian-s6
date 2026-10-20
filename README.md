@@ -188,8 +188,9 @@ The image runs `healthcheck` every 30 seconds (every 2 seconds during the first 
 `/test` runs the Nushell tests in `/etc/nu/scripts/tests` (add yours to `tests/mod.nu`). Before running, it checks that tests really execute and fails if they don't. Tests are removed from published images, so run them on your own builds.
 
 ```sh
-./test.sh        # builds the Debian 13 image and runs /test
-./test.sh 12     # the same for Debian 12
+./test.nu        # builds the Debian 13 image and runs /test
+./test.nu 12     # the same for Debian 12
+./test.nu --all  # every version, in parallel
 ```
 
 ## Troubleshooting
