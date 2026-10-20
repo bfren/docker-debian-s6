@@ -38,7 +38,7 @@ my-image/
 `Dockerfile`:
 
 ```dockerfile
-FROM quay.io/bfren/debian-s6:debian13
+FROM quay.io/bfren/debian-s6:debian13-4.4
 
 ARG BF_IMAGE=my-image
 ARG BF_VERSION=1.0.0
@@ -111,11 +111,10 @@ docker exec test ps -o pid,ppid,args
 * 🩺 A `HEALTHCHECK` that checks cron is running, which you can override with your own script
 * 📦 `bf pkg` works with `apt`, so your install scripts read the same as on Alpine
 * 🧪 Built-in test runner that checks its tests really execute
-* 🖥️ Built for `linux/amd64`, `linux/arm64` and `linux/arm/v7`
 
 ## Tags
 
-Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfren/debian-s6`).
+Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfren/debian-s6`) for `linux/amd64`, `linux/arm/v7` and `linux/arm64`.
 
 | Tag                           | Example                | Use when                                              |
 | ----------------------------- | ---------------------- | ----------------------------------------------------- |
