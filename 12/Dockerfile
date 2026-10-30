@@ -41,7 +41,7 @@ RUN \
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM quay.io/bfren/debian:bookworm-5.4.3
+FROM quay.io/bfren/debian:bookworm-5.4.4-dev
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
