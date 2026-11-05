@@ -27,21 +27,17 @@ RUN \
 # STAGE 1: get overlay from Alpine S6 image
 #======================================================================================================================
 
-FROM quay.io/bfren/alpine AS alpine
+FROM scratch AS alpine
 
-WORKDIR /tmp
-RUN \
-    # get the overlay from the Alpine S6 base image
-    echo "Cloning Alpine S6 overlay." && \
-    apk add git && git clone --branch v6.7.2 https://github.com/bfren/docker-alpine-s6.git && \
-    mv docker-alpine-s6/overlay /
+# ADD checks the branch's latest commit on every build, so a cached copy of an older commit is never used
+ADD https://github.com/bfren/docker-alpine-s6.git#v7.0.0 /
 
 
 #======================================================================================================================
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM quay.io/bfren/debian:trixie-5.4.3
+FROM quay.io/bfren/debian:trixie-6.0.0
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 

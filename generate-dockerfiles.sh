@@ -2,10 +2,10 @@
 
 set -euo pipefail
 
-docker pull bfren/alpine
+docker pull quay.io/bfren/alpine
 
-BASE_VERSION="5.4.3"
-ALPINE_BRANCH="v6.7.2"
+BASE_VERSION="6.0.0"
+ALPINE_BRANCH="v7.0.0"
 S6_VERSION="3.2.3.2"
 
 DEBIAN_VERSIONS="12 13"

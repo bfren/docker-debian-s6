@@ -1,6 +1,6 @@
 # Debian + S6
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/bfren/docker-debian-s6) ![Docker Pulls](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fpulls%2Fdebian-s6) ![Docker Image Size](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fsize%2Fdebian-s6) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bfren/docker-debian-s6/dev.yml?branch=main)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/bfren/docker-debian-s6) ![Docker Pulls](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fpulls%2Fdebian-s6) ![Docker Image Size](https://img.shields.io/endpoint?url=https%3A%2F%2Fbfren.dev%2Fdocker%2Fsize%2Fdebian-s6) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bfren/docker-debian-s6/build.yml?branch=main)
 
 [Docker Hub](https://hub.docker.com/r/bfren/debian-s6) - [Quay.io](https://quay.io/repository/bfren/debian-s6) - [bfren ecosystem](https://github.com/bfren/docker)
 
@@ -38,7 +38,7 @@ my-image/
 `Dockerfile`:
 
 ```dockerfile
-FROM quay.io/bfren/debian-s6:debian13-4.5
+FROM quay.io/bfren/debian-s6:debian13-5.0
 
 ARG BF_IMAGE=my-image
 ARG BF_VERSION=1.0.0
@@ -119,13 +119,13 @@ Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfr
 | Tag                           | Example                | Use when                                              |
 | ----------------------------- | ---------------------- | ----------------------------------------------------- |
 | `debianX`                     | `debian13`             | You want the latest image for a Debian version        |
-| `debianX-MAJOR`               | `debian13-4`           | You want updates, but not breaking changes            |
-| `debianX-MINOR`               | `debian13-4.5`         | You want fixes only - **recommended for building on** |
-| `debianX-VERSION`             | `debian13-4.5.0`       | You want to pin this image exactly                    |
+| `debianX-MAJOR`               | `debian13-5`           | You want updates, but not breaking changes            |
+| `debianX-MINOR`               | `debian13-5.0`         | You want fixes only - **recommended for building on** |
+| `debianX-VERSION`             | `debian13-5.0.0`       | You want to pin this image exactly                    |
 | `debianX.Y`                   | `debian13.7`           | You want an exact Debian point release                |
-| `debianX.Y-VERSION`           | `debian13.7-4.5.0`     | You want to pin both                                  |
-| `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-4.5` | As above, using the Debian release name               |
-| `latest`, `4`, `4.5`, `4.5.0` |                        | As above, on the newest Debian version                |
+| `debianX.Y-VERSION`           | `debian13.7-5.0.0`     | You want to pin both                                  |
+| `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-5.0` | As above, using the Debian release name               |
+| `latest`, `5`, `5.0`, `5.0.0` |                        | As above, on the newest Debian version                |
 
 | Debian        | Security support ends | Community LTS ends |
 | ------------- | --------------------- | ------------------ |
@@ -230,7 +230,7 @@ Use this one for long-running services, especially if they need scheduled tasks 
 
 ### Why does this repository contain so little?
 
-The platform is shared. When this image is built, the [Alpine + S6 overlay](https://github.com/bfren/docker-alpine-s6) is cloned at the version set in `generate-dockerfiles.sh` and copied on top of the [Debian](https://github.com/bfren/docker-debian) base image, and the S6 Overlay is added. The Debian-specific parts (`bf pkg`, `bf clean`, `bf tz`) come from the Debian base image.
+The platform is shared. When this image is built, the [Alpine + S6 overlay](https://github.com/bfren/docker-alpine-s6) is fetched at the version set in `generate-dockerfiles.sh` and copied on top of the [Debian](https://github.com/bfren/docker-debian) base image, and the S6 Overlay is added. The Debian-specific parts (`bf pkg`, including the apt caches `bf clean` removes, and `bf tz`) come from the Debian base image.
 
 ## Licence
 
