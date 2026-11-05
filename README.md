@@ -230,7 +230,7 @@ Use this one for long-running services, especially if they need scheduled tasks 
 
 ### Why does this repository contain so little?
 
-The platform is shared. When this image is built, the [Alpine + S6 overlay](https://github.com/bfren/docker-alpine-s6) is cloned at the version set in `generate-dockerfiles.sh` and copied on top of the [Debian](https://github.com/bfren/docker-debian) base image, and the S6 Overlay is added. The Debian-specific parts (`bf pkg`, `bf clean`, `bf tz`) come from the Debian base image.
+The platform is shared. When this image is built, the [Alpine + S6 overlay](https://github.com/bfren/docker-alpine-s6) is fetched at the version set in `generate-dockerfiles.sh` and copied on top of the [Debian](https://github.com/bfren/docker-debian) base image, and the S6 Overlay is added. The Debian-specific parts (`bf pkg`, including the apt caches `bf clean` removes, and `bf tz`) come from the Debian base image.
 
 ## Licence
 
