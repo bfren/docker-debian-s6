@@ -4,8 +4,8 @@ set -euo pipefail
 
 docker pull quay.io/bfren/alpine
 
-BASE_VERSION="6.0.0"
-ALPINE_BRANCH="v7.0.0"
+BASE_VERSION="6.0.1"
+ALPINE_BRANCH="v7.0.1"
 S6_VERSION="3.2.3.2"
 
 DEBIAN_VERSIONS="12 13"
