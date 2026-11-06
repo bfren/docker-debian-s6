@@ -30,14 +30,14 @@ RUN \
 FROM scratch AS alpine
 
 # ADD checks the branch's latest commit on every build, so a cached copy of an older commit is never used
-ADD https://github.com/bfren/docker-alpine-s6.git#v7.0.1 /
+ADD https://github.com/bfren/docker-alpine-s6.git#v7.0.2 /
 
 
 #======================================================================================================================
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM quay.io/bfren/debian:trixie-6.0.1
+FROM quay.io/bfren/debian:trixie-6.0.2
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
