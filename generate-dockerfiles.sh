@@ -29,5 +29,4 @@ for V in ${DEBIAN_VERSIONS} ; do
 
 done
 
-docker system prune -f
 echo "Done."
