@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.2] - 2026-11-10
+
+### Changed
+
+- Base image updated to `bfren/debian` 6.0.2, which updates Nushell to 0.117.0 - your own Nushell scripts may need
+  changes - see the [Debian changelog](https://github.com/bfren/docker-debian/blob/main/CHANGELOG.md).
+- The S6 overlay is updated to `bfren/alpine-s6` 7.0.2: the container keeps starting when `BF_TZ` cannot be set, and
+  `bf-s6 svc launch` no longer hides `CURRENT_FILE` and `FILE_PWD` - see the
+  [Alpine + S6 changelog](https://github.com/bfren/docker-alpine-s6/blob/main/CHANGELOG.md).
+
 ## [5.0.1] - 2026-11-06
 
 ### Changed
@@ -26,5 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Images are built and published by the shared `bfren/docker` build workflow (`build.yml`), replacing the separate
   `dev.yml` and `publish.yml` workflows.
 
+[5.0.2]: https://github.com/bfren/docker-debian-s6/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/bfren/docker-debian-s6/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/bfren/docker-debian-s6/compare/v4.5.2...v5.0.0
