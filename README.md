@@ -136,6 +136,8 @@ Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfr
 | `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-5.0` | As above, using the Debian release name               |
 | `latest`, `5`, `5.0`, `5.0.3` |                        | As above, on the newest Debian version                |
 
+A new `MAJOR` version means a breaking change. Before moving to one, read the [changelog](CHANGELOG.md), where each breaking change is marked **Breaking**.
+
 | Debian        | Security support ends | Community LTS ends |
 | ------------- | --------------------- | ------------------ |
 | 13 (trixie)   | 2028-08-09            | 2030-06-30         |
