@@ -20,7 +20,9 @@ You probably don't want to run this image on its own. Use it as the `FROM` line 
 
 ## Quickstart
 
-A minimal image that runs one supervised service:
+A minimal image that runs one supervised service, `myapp`.
+
+1. Create a folder for your image with this layout - everything in `overlay` is copied into the image:
 
 ```plain
 my-image/
@@ -35,7 +37,13 @@ my-image/
         └── user-bundles.d/user/contents.d/myapp   (empty file)
 ```
 
-`Dockerfile`:
+   The empty files tell S6 what to do - their names are what matter:
+
+   * `dependencies.d/init` - start `myapp` only after the image's initialisation scripts have finished.
+   * `type` - `longrun` means a service that keeps running, and S6 restarts it if it exits.
+   * `user-bundles.d/user/contents.d/myapp` - start `myapp` when the container starts.
+
+2. Write the `Dockerfile`:
 
 ```dockerfile
 FROM quay.io/bfren/debian-s6:debian13-5.0
@@ -47,7 +55,7 @@ COPY ./overlay /
 RUN apt-get update && apt-get install --no-install-recommends -y myapp && bf-install
 ```
 
-`run` - start your service in the foreground, **ending with `bf-s6 svc launch`**:
+3. Write `run`, which starts your service in the foreground. It must **end with `bf-s6 svc launch`**, so that S6 supervises your service directly:
 
 ```nu
 #!/usr/bin/nu
@@ -76,7 +84,7 @@ def main [
 }
 ```
 
-`finish` - pass S6's arguments through so the container only stops if `myapp` fails:
+4. Write `finish`, which S6 runs whenever `myapp` stops. It passes S6's arguments through, so the container only stops if `myapp` fails:
 
 ```nu
 #!/usr/bin/nu
@@ -89,10 +97,11 @@ bf env load -x myapp
 def main [...args] { bf-s6 svc finish --terminate ...$args }
 ```
 
-Build it, run it, and check `myapp` is supervised directly by S6:
+5. Build and start the image, then check `myapp` is supervised directly by S6:
 
 ```sh
-docker build -t my-image . && docker run -d --name test my-image
+docker build -t my-image .
+docker run -d --name test my-image
 docker exec test ps -o pid,ppid,args
 ```
 
@@ -121,11 +130,11 @@ Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfr
 | `debianX`                     | `debian13`             | You want the latest image for a Debian version        |
 | `debianX-MAJOR`               | `debian13-5`           | You want updates, but not breaking changes            |
 | `debianX-MINOR`               | `debian13-5.0`         | You want fixes only - **recommended for building on** |
-| `debianX-VERSION`             | `debian13-5.0.2`       | You want to pin this image exactly                    |
+| `debianX-VERSION`             | `debian13-5.0.3`       | You want to pin this image exactly                    |
 | `debianX.Y`                   | `debian13.7`           | You want an exact Debian point release                |
-| `debianX.Y-VERSION`           | `debian13.7-5.0.2`     | You want to pin both                                  |
+| `debianX.Y-VERSION`           | `debian13.7-5.0.3`     | You want to pin both                                  |
 | `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-5.0` | As above, using the Debian release name               |
-| `latest`, `5`, `5.0`, `5.0.2` |                        | As above, on the newest Debian version                |
+| `latest`, `5`, `5.0`, `5.0.3` |                        | As above, on the newest Debian version                |
 
 | Debian        | Security support ends | Community LTS ends |
 | ------------- | --------------------- | ------------------ |
