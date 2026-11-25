@@ -12,7 +12,8 @@ DEBIAN_VERSIONS="12 13"
 for V in ${DEBIAN_VERSIONS} ; do
 
     echo "Debian ${V}"
-    DEBIAN_NAME=`cat ./${V}/DEBIAN_NAME`
+    # the base is pinned to this exact point release, so a stale DEBIAN_MINOR fails the build
+    DEBIAN_MINOR=`cat ./${V}/DEBIAN_MINOR`
 
     DOCKERFILE=$(docker run \
         -v ${PWD}:/ws \
@@ -22,7 +23,7 @@ for V in ${DEBIAN_VERSIONS} ; do
         ALPINE_BRANCH=${ALPINE_BRANCH} \
         BASE_VERSION=${BASE_VERSION} \
         S6_VERSION=${S6_VERSION} \
-        DEBIAN_NAME=${DEBIAN_NAME}
+        DEBIAN_MINOR=${DEBIAN_MINOR}
     )
 
     echo "${DOCKERFILE}" > ./${V}/Dockerfile

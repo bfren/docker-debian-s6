@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.0.4] - Unreleased
 
+### Changed
+
+- The base image is pinned to its exact Debian point release (`debian13.8-6.0.3`, `debian12.15-6.0.3`) instead of the
+  release name, so the point release in the tags always matches the image.
+
 ### Fixed
 
 - The Debian 13 image is published as `debian13.8` and `debian13.8-5.0.4`. 5.0.3 was already on Debian 13.8, but

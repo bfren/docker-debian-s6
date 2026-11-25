@@ -37,7 +37,7 @@ ADD https://github.com/bfren/docker-alpine-s6.git#v7.0.3 /
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM quay.io/bfren/debian:bookworm-6.0.3
+FROM quay.io/bfren/debian:debian12.15-6.0.3
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 
