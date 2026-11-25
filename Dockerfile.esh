@@ -37,7 +37,7 @@ ADD https://github.com/bfren/docker-alpine-s6.git#<%= ${ALPINE_BRANCH} %> /
 # STAGE 2: create final image
 #======================================================================================================================
 
-FROM quay.io/bfren/debian:<%= ${DEBIAN_NAME} %>-<%= ${BASE_VERSION} %>
+FROM quay.io/bfren/debian:debian<%= ${DEBIAN_MINOR} %>-<%= ${BASE_VERSION} %>
 COPY --from=s6 /s6 /s6
 COPY --from=alpine /overlay /
 

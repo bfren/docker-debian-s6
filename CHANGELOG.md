@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.4] - 2026-11-25
+
+### Changed
+
+- The base image is pinned to its exact Debian point release (`debian13.8-6.0.3`, `debian12.15-6.0.3`) instead of the
+  release name, so the point release in the tags always matches the image.
+
+### Fixed
+
+- The Debian 13 image is published as `debian13.8` and `debian13.8-5.0.4`. 5.0.3 was already on Debian 13.8, but
+  was published as `debian13.7-5.0.3` and moved the `debian13.7` tag to it - use `debian13.7-5.0.2` for Debian 13.7.
+
 ## [5.0.3] - 2026-11-25
 
 ### Changed
@@ -50,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Images are built and published by the shared `bfren/docker` build workflow (`build.yml`), replacing the separate
   `dev.yml` and `publish.yml` workflows.
 
+[5.0.4]: https://github.com/bfren/docker-debian-s6/compare/v5.0.3...v5.0.4
 [5.0.3]: https://github.com/bfren/docker-debian-s6/compare/v5.0.2...v5.0.3
 [5.0.2]: https://github.com/bfren/docker-debian-s6/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/bfren/docker-debian-s6/compare/v5.0.0...v5.0.1
