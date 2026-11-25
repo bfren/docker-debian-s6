@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [5.0.3] - Unreleased
+## [5.0.3] - 2026-11-25
+
+### Changed
+
+- Base image updated to `bfren/debian` 6.0.3, which moves Debian 13 to 13.8 (so the `debian13` and `trixie` tags
+  move to it, published as `debian13.8`) and rebuilds BusyBox, figlet and Nushell without changing their versions -
+  see the [Debian changelog](https://github.com/bfren/docker-debian/blob/main/CHANGELOG.md).
+- The S6 overlay is updated to `bfren/alpine-s6` 7.0.3, which makes no changes to the overlay - see the
+  [Alpine + S6 changelog](https://github.com/bfren/docker-alpine-s6/blob/main/CHANGELOG.md).
 
 ### Fixed
 
