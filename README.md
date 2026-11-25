@@ -130,11 +130,11 @@ Images are published to Docker Hub (`bfren/debian-s6`) and Quay.io (`quay.io/bfr
 | `debianX`                     | `debian13`             | You want the latest image for a Debian version        |
 | `debianX-MAJOR`               | `debian13-5`           | You want updates, but not breaking changes            |
 | `debianX-MINOR`               | `debian13-5.0`         | You want fixes only - **recommended for building on** |
-| `debianX-VERSION`             | `debian13-5.0.3`       | You want to pin this image exactly                    |
+| `debianX-VERSION`             | `debian13-5.0.4`       | You want to pin this image exactly                    |
 | `debianX.Y`                   | `debian13.8`           | You want an exact Debian point release                |
-| `debianX.Y-VERSION`           | `debian13.8-5.0.3`     | You want to pin both                                  |
+| `debianX.Y-VERSION`           | `debian13.8-5.0.4`     | You want to pin both                                  |
 | `NAME`, `NAME-MAJOR` …        | `trixie`, `trixie-5.0` | As above, using the Debian release name               |
-| `latest`, `5`, `5.0`, `5.0.3` |                        | As above, on the newest Debian version                |
+| `latest`, `5`, `5.0`, `5.0.4` |                        | As above, on the newest Debian version                |
 
 A new `MAJOR` version means a breaking change. Before moving to one, read the [changelog](CHANGELOG.md), where each breaking change is marked **Breaking**.
 
